@@ -63,6 +63,7 @@ namespace WinFormsApp3
             double cash_available = double.Parse(kunden[kundenID,2]);
             double cash_after_withdraw = cash_available - double.Parse(amountWithdraw); 
             cash_after_withdraw = Math.Round(cash_after_withdraw, 2);
+            kunden[kundenID, 2] = cash_after_withdraw.ToString();
             label_cash_available.Text = cash_after_withdraw.ToString();
         }
     }
