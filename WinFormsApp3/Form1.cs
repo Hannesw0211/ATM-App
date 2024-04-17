@@ -22,7 +22,27 @@ namespace WinFormsApp3
             String PIN = textBox1.Text;
             SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Hannes\\Desktop\\Projekte\\WinFormsApp3\\WinFormsApp3\\ATM_Database.mdf;Integrated Security=True");
             SqlCommand cmd = new SqlCommand("SELECT PIN FROM kunden", con);
-            //TODO
+            SqlCommand cmd_search_clientID = new SqlCommand("SELECT id FROM kunden WHERE cardnumber=@CCdetails", con);
+            con.Open();
+
+            using (SqlDataReader reader = cmd_search_clientID.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    kundenID = int.Parse(reader[0].ToString());
+                }
+            }
+
+            SqlCommand cmd_search_PIN = new SqlCommand("SELECT PIN FROM kunden WHERE id=@kundenID", con);
+
+            using (SqlDataReader reader = cmd_search_PIN.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    MessageBox.Show(reader[0].ToString());
+                }
+            }
+
 
             for (int i = 0; i < (kunden.Length / 3); i++)
             {
