@@ -14,6 +14,7 @@ namespace WinFormsApp3
         string[,] kunden = { { "1010", "1111", "1405,64" }, { "2020303040405050", "2222", "10,34" }, { "3030404050506060", "3333", "502,13" }, { "4040505060607070", "4444", "1,34" }, { "5050606070708080", "5555", "10404,41" }, { "6060707080809090", "6666", "692,29" } };
         bool UserFound;
         int kundenID;
+
         
 
         private void button2_Click(object sender, EventArgs e)
@@ -23,8 +24,9 @@ namespace WinFormsApp3
             SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Hannes\\Desktop\\Projekte\\WinFormsApp3\\WinFormsApp3\\ATM_Database.mdf;Integrated Security=True");
             SqlCommand cmd = new SqlCommand("SELECT PIN FROM kunden", con);
             SqlCommand cmd_search_clientID = new SqlCommand("SELECT id FROM kunden WHERE cardnumber=@CCdetails", con);
+            cmd_search_clientID.Parameters.AddWithValue("@CCdetails", CCdetails);
             con.Open();
-
+            
             using (SqlDataReader reader = cmd_search_clientID.ExecuteReader())
             {
                 while (reader.Read())
@@ -32,33 +34,26 @@ namespace WinFormsApp3
                     kundenID = int.Parse(reader[0].ToString());
                 }
             }
-
+            
             SqlCommand cmd_search_PIN = new SqlCommand("SELECT PIN FROM kunden WHERE id=@kundenID", con);
+            cmd_search_PIN.Parameters.AddWithValue("@kundenID", kundenID);
 
             using (SqlDataReader reader = cmd_search_PIN.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    MessageBox.Show(reader[0].ToString());
+                    if (PIN == reader[0].ToString())
+                    {
+                        UserFound = true;
+                    }
+                    else
+                    {
+                        UserFound = false;  
+                    }
                 }
             }
 
-
-            for (int i = 0; i < (kunden.Length / 3); i++)
-            {
-
-
-                if (CCdetails == kunden[i, 0])
-                {
-                    UserFound = true;
-                    kundenID = i;
-                }
-                else
-                {
-                    continue;
-                }
-            }
-            if (UserFound && PIN == kunden[kundenID, 1])
+            if (UserFound)
             {
                 label3.Text = "Success";
                 login_success();
@@ -74,7 +69,7 @@ namespace WinFormsApp3
         {
             panel1.Visible = true;
             label_cash_available.Visible = true;
-            label_cash_available.Text = kunden[kundenID, 2];
+            label_cash_available.Text = kunden[kundenID, 2]; //2d setup
             label_notice_moneyavailable.Visible = true;
             label_notice_withdraw.Visible = true;
             tb_withdraw_amount.Visible = true;
