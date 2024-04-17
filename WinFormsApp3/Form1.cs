@@ -1,4 +1,5 @@
-using System.Windows.Forms.VisualStyles;
+using Microsoft.VisualBasic.ApplicationServices;
+using System.Data.SqlClient;
 
 namespace WinFormsApp3
 {
@@ -13,11 +14,15 @@ namespace WinFormsApp3
         string[,] kunden = { { "1010", "1111", "1405,64" }, { "2020303040405050", "2222", "10,34" }, { "3030404050506060", "3333", "502,13" }, { "4040505060607070", "4444", "1,34" }, { "5050606070708080", "5555", "10404,41" }, { "6060707080809090", "6666", "692,29" } };
         bool UserFound;
         int kundenID;
+        
 
         private void button2_Click(object sender, EventArgs e)
         {
             String CCdetails = textBox1_CCdetails.Text;
             String PIN = textBox1.Text;
+            SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Hannes\\Desktop\\Projekte\\WinFormsApp3\\WinFormsApp3\\ATM_Database.mdf;Integrated Security=True");
+            SqlCommand cmd = new SqlCommand("SELECT PIN FROM kunden", con);
+            //TODO
 
             for (int i = 0; i < (kunden.Length / 3); i++)
             {
