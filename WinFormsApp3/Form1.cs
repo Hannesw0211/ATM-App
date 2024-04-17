@@ -9,9 +9,8 @@ namespace WinFormsApp3
         {
             InitializeComponent();
         }
-        //CC Number , PIN 
-        //TODO: Database
-        string[,] kunden = { { "1010", "1111", "1405,64" }, { "2020303040405050", "2222", "10,34" }, { "3030404050506060", "3333", "502,13" }, { "4040505060607070", "4444", "1,34" }, { "5050606070708080", "5555", "10404,41" }, { "6060707080809090", "6666", "692,29" } };
+
+        string[,] kunden = { }; //Placeholder, delete/change old loc and use db
         bool UserFound;
         int kundenID;
 
