@@ -36,6 +36,11 @@
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            bt_QW_100 = new Button();
+            bt_QW_50 = new Button();
+            bt_QW_20 = new Button();
+            label_quick_withdraw = new Label();
+            label_notice_withdrawError = new Label();
             tb_withdraw_amount = new TextBox();
             bt_withdraw = new Button();
             label_notice_withdraw = new Label();
@@ -105,6 +110,11 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(bt_QW_100);
+            panel1.Controls.Add(bt_QW_50);
+            panel1.Controls.Add(bt_QW_20);
+            panel1.Controls.Add(label_quick_withdraw);
+            panel1.Controls.Add(label_notice_withdrawError);
             panel1.Controls.Add(tb_withdraw_amount);
             panel1.Controls.Add(bt_withdraw);
             panel1.Controls.Add(label_notice_withdraw);
@@ -115,6 +125,53 @@
             panel1.Size = new Size(418, 365);
             panel1.TabIndex = 8;
             panel1.Visible = false;
+            // 
+            // bt_QW_100
+            // 
+            bt_QW_100.Location = new Point(140, 153);
+            bt_QW_100.Name = "bt_QW_100";
+            bt_QW_100.Size = new Size(42, 23);
+            bt_QW_100.TabIndex = 9;
+            bt_QW_100.Text = "100€";
+            bt_QW_100.UseVisualStyleBackColor = true;
+            bt_QW_100.Click += bt_QW_100_Click;
+            // 
+            // bt_QW_50
+            // 
+            bt_QW_50.Location = new Point(92, 153);
+            bt_QW_50.Name = "bt_QW_50";
+            bt_QW_50.Size = new Size(42, 23);
+            bt_QW_50.TabIndex = 8;
+            bt_QW_50.Text = "50€";
+            bt_QW_50.UseVisualStyleBackColor = true;
+            bt_QW_50.Click += bt_QW_50_Click;
+            // 
+            // bt_QW_20
+            // 
+            bt_QW_20.Location = new Point(44, 153);
+            bt_QW_20.Name = "bt_QW_20";
+            bt_QW_20.Size = new Size(42, 23);
+            bt_QW_20.TabIndex = 7;
+            bt_QW_20.Text = "20€";
+            bt_QW_20.UseVisualStyleBackColor = true;
+            bt_QW_20.Click += bt_QW_20_Click;
+            // 
+            // label_quick_withdraw
+            // 
+            label_quick_withdraw.AutoSize = true;
+            label_quick_withdraw.Location = new Point(44, 132);
+            label_quick_withdraw.Name = "label_quick_withdraw";
+            label_quick_withdraw.Size = new Size(92, 15);
+            label_quick_withdraw.TabIndex = 6;
+            label_quick_withdraw.Text = "Quick Withdraw";
+            // 
+            // label_notice_withdrawError
+            // 
+            label_notice_withdrawError.AutoSize = true;
+            label_notice_withdrawError.Location = new Point(222, 96);
+            label_notice_withdrawError.Name = "label_notice_withdrawError";
+            label_notice_withdrawError.Size = new Size(0, 15);
+            label_notice_withdrawError.TabIndex = 5;
             // 
             // tb_withdraw_amount
             // 
@@ -201,5 +258,10 @@
         private Label label_notice_withdraw;
         private Label label_cash_available;
         private Label label_notice_moneyavailable;
+        private Label label_notice_withdrawError;
+        private Label label_quick_withdraw;
+        private Button bt_QW_100;
+        private Button bt_QW_50;
+        private Button bt_QW_20;
     }
 }
