@@ -1,5 +1,6 @@
 using Microsoft.VisualBasic.ApplicationServices;
 using System.Data.SqlClient;
+using System.Drawing;
 
 namespace WinFormsApp3
 {
@@ -37,9 +38,6 @@ namespace WinFormsApp3
             SqlCommand cmd_search_PIN = new SqlCommand("SELECT PIN FROM kunden WHERE id=@kundenID", con);
             cmd_search_PIN.Parameters.AddWithValue("@kundenID", kundenID);
 
-            SqlCommand cmd_search_cashAvailable = new SqlCommand("SELECT balance FROM kunden WHERE id=@kundenID", con);
-            cmd_search_cashAvailable.Parameters.AddWithValue("@kundenID", kundenID);
-
             using (SqlDataReader reader = cmd_search_PIN.ExecuteReader())
             {
                 while (reader.Read())
@@ -54,6 +52,28 @@ namespace WinFormsApp3
                     }
                 }
             }
+            con.Close();
+
+            if (UserFound)
+            {
+                label3.Text = "Success";
+                fetch_cash_available();
+                login_success();
+                
+            }
+            else
+            {
+                label3.Text = "Etwas ist Schiefgelaufen";
+
+            }
+        }
+
+        private void fetch_cash_available()
+        {
+            SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Hannes\\Desktop\\Projekte\\WinFormsApp3\\WinFormsApp3\\ATM_Database.mdf;Integrated Security=True");
+            SqlCommand cmd_search_cashAvailable = new SqlCommand("SELECT balance FROM kunden WHERE id=@kundenID", con);
+            cmd_search_cashAvailable.Parameters.AddWithValue("@kundenID", kundenID);
+            con.Open();
 
             using (SqlDataReader reader = cmd_search_cashAvailable.ExecuteReader())
             {
@@ -61,18 +81,6 @@ namespace WinFormsApp3
                 {
                     cash_available = reader[0].ToString();
                 }
-            }
-            con.Close();
-
-            if (UserFound)
-            {
-                label3.Text = "Success";
-                login_success();
-            }
-            else
-            {
-                label3.Text = "Etwas ist Schiefgelaufen";
-
             }
         }
 
@@ -91,7 +99,6 @@ namespace WinFormsApp3
         private void bt_withdraw_Click(object sender, EventArgs e)
         {
             String amountWithdraw = tb_withdraw_amount.Text;
-
             if (double.Parse(amountWithdraw) > 1000)
             {
                 label_notice_withdrawError.Text = "Ihr Abhebelimit liegt bei 1000€";
@@ -109,6 +116,7 @@ namespace WinFormsApp3
                 cmd_withdraw.Parameters.AddWithValue("@kundenID", kundenID);
                 cmd_withdraw.ExecuteNonQuery();
                 con.Close();
+                fetch_cash_available();
             }
 
 
@@ -127,6 +135,7 @@ namespace WinFormsApp3
             cmd_withdraw.Parameters.AddWithValue("@kundenID", kundenID);
             cmd_withdraw.ExecuteNonQuery();
             con.Close();
+            fetch_cash_available();
         }
 
         private void bt_QW_50_Click(object sender, EventArgs e)
@@ -142,6 +151,7 @@ namespace WinFormsApp3
             cmd_withdraw.Parameters.AddWithValue("@kundenID", kundenID);
             cmd_withdraw.ExecuteNonQuery();
             con.Close();
+            fetch_cash_available();
         }
 
         private void bt_QW_100_Click(object sender, EventArgs e)
@@ -157,6 +167,7 @@ namespace WinFormsApp3
             cmd_withdraw.Parameters.AddWithValue("@kundenID", kundenID);
             cmd_withdraw.ExecuteNonQuery();
             con.Close();
+            fetch_cash_available();
         }
     }
 }
