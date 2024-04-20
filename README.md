@@ -10,5 +10,4 @@ Giving the user the ability to withdraw up to $1,000 worth of cash in one transa
 
 TODO:   
 
-Transactions  
-fix cash_available database command (request everytime cash_available is used)
+add option: only 5 tx/day allowed
