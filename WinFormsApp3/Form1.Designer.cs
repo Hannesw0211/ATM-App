@@ -36,6 +36,8 @@
             label2 = new Label();
             label3 = new Label();
             panel1 = new Panel();
+            label_notice_transaktions = new Label();
+            dataGridView1 = new DataGridView();
             bt_QW_100 = new Button();
             bt_QW_50 = new Button();
             bt_QW_20 = new Button();
@@ -47,6 +49,7 @@
             label_cash_available = new Label();
             label_notice_moneyavailable = new Label();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // label_noticeLogin
@@ -110,6 +113,8 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(label_notice_transaktions);
+            panel1.Controls.Add(dataGridView1);
             panel1.Controls.Add(bt_QW_100);
             panel1.Controls.Add(bt_QW_50);
             panel1.Controls.Add(bt_QW_20);
@@ -122,9 +127,26 @@
             panel1.Controls.Add(label_notice_moneyavailable);
             panel1.Location = new Point(12, 12);
             panel1.Name = "panel1";
-            panel1.Size = new Size(418, 365);
+            panel1.Size = new Size(418, 426);
             panel1.TabIndex = 8;
             panel1.Visible = false;
+            // 
+            // label_notice_transaktions
+            // 
+            label_notice_transaktions.AutoSize = true;
+            label_notice_transaktions.Location = new Point(48, 190);
+            label_notice_transaktions.Name = "label_notice_transaktions";
+            label_notice_transaktions.Size = new Size(80, 15);
+            label_notice_transaktions.TabIndex = 11;
+            label_notice_transaktions.Text = "Transaktionen";
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(45, 208);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.Size = new Size(341, 215);
+            dataGridView1.TabIndex = 10;
             // 
             // bt_QW_100
             // 
@@ -226,7 +248,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(442, 389);
+            ClientSize = new Size(442, 450);
             Controls.Add(panel1);
             Controls.Add(label3);
             Controls.Add(label2);
@@ -239,6 +261,7 @@
             Text = "Form1";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -263,5 +286,7 @@
         private Button bt_QW_100;
         private Button bt_QW_50;
         private Button bt_QW_20;
+        private DataGridView dataGridView1;
+        private Label label_notice_transaktions;
     }
 }

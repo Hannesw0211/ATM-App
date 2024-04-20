@@ -1,4 +1,5 @@
 using Microsoft.VisualBasic.ApplicationServices;
+using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 
@@ -70,6 +71,7 @@ namespace WinFormsApp3
             {
                 label3.Text = "Success";
                 fetch_cash_available();
+                fetch_tx();
                 login_success();
                 
             }
@@ -94,6 +96,19 @@ namespace WinFormsApp3
                     cash_available = reader[0].ToString();
                 }
             }
+        }
+
+        private void fetch_tx()
+        {
+            SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Hannes\\Desktop\\Projekte\\WinFormsApp3\\WinFormsApp3\\ATM_Database.mdf;Integrated Security=True");
+            con.Open();
+            SqlCommand cmd_fetch_transactions = new SqlCommand("SELECT Id,betrag,date FROM Transaktions WHERE kundenID=@kundenID", con);
+            cmd_fetch_transactions.Parameters.AddWithValue("@kundenID", kundenID);
+            SqlDataAdapter da = new SqlDataAdapter(cmd_fetch_transactions);
+            DataTable dataTable = new DataTable();
+            da.Fill(dataTable);
+            dataGridView1.DataSource = dataTable;
+            con.Close();
         }
 
         private void login_success()
@@ -129,6 +144,8 @@ namespace WinFormsApp3
                 cmd_withdraw.ExecuteNonQuery();
                 con.Close();
                 fetch_cash_available();
+                add_txData(amountWithdraw);
+                fetch_tx();
             }
 
 
@@ -148,6 +165,8 @@ namespace WinFormsApp3
             cmd_withdraw.ExecuteNonQuery();
             con.Close();
             fetch_cash_available();
+            add_txData("20");
+            fetch_tx();
         }
 
         private void bt_QW_50_Click(object sender, EventArgs e)
@@ -164,6 +183,8 @@ namespace WinFormsApp3
             cmd_withdraw.ExecuteNonQuery();
             con.Close();
             fetch_cash_available();
+            add_txData("50");
+            fetch_tx();
         }
 
         private void bt_QW_100_Click(object sender, EventArgs e)
@@ -180,6 +201,31 @@ namespace WinFormsApp3
             cmd_withdraw.ExecuteNonQuery();
             con.Close();
             fetch_cash_available();
+            add_txData("100");
+            fetch_tx();
+        }
+
+        private void add_txData(String amountWithdraw)
+        {
+            String amountTx = "";
+            SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Hannes\\Desktop\\Projekte\\WinFormsApp3\\WinFormsApp3\\ATM_Database.mdf;Integrated Security=True");
+            con.Open();
+            SqlCommand cmd_search_tx_num = new SqlCommand("SELECT COUNT(Id) FROM Transaktions", con);
+            using (SqlDataReader reader = cmd_search_tx_num.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    amountTx = reader[0].ToString();
+                }
+            }
+
+            SqlCommand cmd_withdraw_tx = new SqlCommand("INSERT INTO Transaktions (Id, kundenID, betrag, date) VALUES (@Id, @kundenID, @betrag, @date)", con);
+            cmd_withdraw_tx.Parameters.AddWithValue("@Id", amountTx);
+            cmd_withdraw_tx.Parameters.AddWithValue("@kundenID", kundenID);
+            cmd_withdraw_tx.Parameters.AddWithValue("@betrag", amountWithdraw);
+            cmd_withdraw_tx.Parameters.AddWithValue("@date", DateTime.Now);
+            cmd_withdraw_tx.ExecuteNonQuery();
+            con.Close();
         }
     }
 }
