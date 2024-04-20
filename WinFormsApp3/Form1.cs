@@ -21,6 +21,7 @@ namespace WinFormsApp3
         private void button2_Click(object sender, EventArgs e)
         {
             String CCdetails = textBox1_CCdetails.Text;
+            String CCdetails_client="";
             String PIN = textBox1.Text;
             SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Hannes\\Desktop\\Projekte\\WinFormsApp3\\WinFormsApp3\\ATM_Database.mdf;Integrated Security=True");
             SqlCommand cmd_search_clientID = new SqlCommand("SELECT id FROM kunden WHERE cardnumber=@CCdetails", con);
@@ -38,11 +39,22 @@ namespace WinFormsApp3
             SqlCommand cmd_search_PIN = new SqlCommand("SELECT PIN FROM kunden WHERE id=@kundenID", con);
             cmd_search_PIN.Parameters.AddWithValue("@kundenID", kundenID);
 
+            SqlCommand cmd_search_clients_cc = new SqlCommand("SELECT cardnumber FROM kunden WHERE id=@kundenID", con);
+            cmd_search_clients_cc.Parameters.AddWithValue("@kundenID", kundenID);
+
+            using (SqlDataReader reader = cmd_search_clients_cc.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    CCdetails_client = reader[0].ToString();
+                }
+            }
+
             using (SqlDataReader reader = cmd_search_PIN.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    if (PIN == reader[0].ToString())
+                    if (PIN == reader[0].ToString() && CCdetails == CCdetails_client)
                     {
                         UserFound = true;
                     }
