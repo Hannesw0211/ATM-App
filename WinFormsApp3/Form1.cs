@@ -12,7 +12,7 @@ namespace WinFormsApp3
             InitializeComponent();
         }
 
-        string[,] kunden = { }; //Placeholder, delete/change old loc and use db
+        
         bool UserFound;
         int kundenID;
         String cash_available;
@@ -126,16 +126,15 @@ namespace WinFormsApp3
         private void bt_withdraw_Click(object sender, EventArgs e)
         {
             String amountWithdraw = tb_withdraw_amount.Text;
-            if (double.Parse(amountWithdraw) > 1000)
+            if (double.Parse(amountWithdraw) > 1000 || (double.Parse(cash_available) - double.Parse(amountWithdraw)) < 0)
             {
-                label_notice_withdrawError.Text = "Ihr Abhebelimit liegt bei 1000€";
+                label_notice_withdrawError.Text = "Etwas ist Schiefgelaufen";
             }
             else
             {
                 double cash_after_withdraw = double.Parse(cash_available) - double.Parse(amountWithdraw);
                 cash_after_withdraw = Math.Round(cash_after_withdraw, 2);
                 label_cash_available.Text = cash_after_withdraw.ToString();
-
                 SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Hannes\\Desktop\\Projekte\\WinFormsApp3\\WinFormsApp3\\ATM_Database.mdf;Integrated Security=True");
                 SqlCommand cmd_withdraw = new SqlCommand("UPDATE kunden SET balance = @cash_after_withdraw WHERE id=@kundenID", con);
                 con.Open();
